@@ -1,13 +1,7 @@
-#define PLIST_PATH @"/var/mobile/Library/Preferences/com.gilshahar7.pearlfingerprefs.plist"
+
 #define kBundlePath @"/Library/Application Support/PearlFingerBundle.bundle"
 
 
-
-
-static void loadPrefs() {
-	//NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:PLIST_PATH]; 
-    //delay = [[prefs objectForKey:@"delay"] floatValue]; 
-}
 
 
 %hook SBDashBoardPearlUnlockBehavior
@@ -35,7 +29,3 @@ static void loadPrefs() {
 
 
 
-%ctor{
-    loadPrefs();
-    CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)loadPrefs, CFSTR("com.gilshahar7.pearlfingerprefs.settingschanged"), NULL, CFNotificationSuspensionBehaviorCoalesce);
-}
