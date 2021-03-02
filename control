@@ -1,9 +1,9 @@
 Package: com.gilshahar7.pearlfinger
 Name: PearlFinger
 Depends: mobilesubstrate
-Version: 0.0.1
+Version: 1.0.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Middle finger on failed FaceID.
 Maintainer: gilshahar7
 Author: gilshahar7
 Section: Tweaks

@@ -1,31 +1,47 @@
 
 #define kBundlePath @"/Library/Application Support/PearlFingerBundle.bundle"
 
-
+static UILabel *myLabel = nil;
+static UIView *myView = nil;
 
 
 %hook SBDashBoardPearlUnlockBehavior
 -(void)_handlePearlFailure{
-    %orig;
-	NSBundle *bundle = [[[NSBundle alloc] initWithPath:kBundlePath] autorelease];
-	NSString *imagePath = [bundle pathForResource:@"finger@3x" ofType:@"png"];
-	UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
-	UIImageView *myImageView = [[UIImageView alloc] initWithImage:img];
-	[myImageView setFrame:CGRectMake(([[UIApplication sharedApplication] keyWindow].frame.size.width/2) - (img.size.width/2),
-                             ([[UIApplication sharedApplication] keyWindow].frame.size.height / 2) - (img.size.height / 2),
-                             img.size.width, 
-                             img.size.height)];
-	[[[UIApplication sharedApplication] keyWindow] addSubview:myImageView];
-	
-	    [UIView animateWithDuration:0.4 delay:1.5 options:0 animations:^{
-         // Animate the alpha value of your imageView from 1.0 to 0.0 here
-         myImageView.alpha = 0.0f;
-     } completion:^(BOOL finished) {
-         // Once the animation is completed and the alpha has gone to 0.0, hide the view for good
-         myImageView.hidden = YES;
-     }];
+  %orig;
+  if(myLabel == nil){
+    myLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, [[UIApplication sharedApplication] keyWindow].frame.size.width - 20, 700)];
+    myLabel.text = @"🖕";
+    myLabel.font = [myLabel.font fontWithSize:300];
+    myLabel.numberOfLines = 1;
+    myLabel.adjustsFontSizeToFitWidth = YES;
+    myLabel.backgroundColor = [UIColor clearColor];
+    myLabel.textColor = [UIColor blackColor];
+    myLabel.textAlignment = NSTextAlignmentCenter;
+    myView = [[UIView alloc] initWithFrame:CGRectMake(([[UIApplication sharedApplication] keyWindow].frame.size.width/2) - (myLabel.frame.size.width/2), ([[UIApplication sharedApplication] keyWindow].frame.size.height / 2) - (myLabel.frame.size.height / 2),
+    myLabel.frame.size.width,
+    myLabel.frame.size.height)];
+    [myView addSubview:myLabel];
+  }
+
+  myView.alpha = 0.0f;
+
+  [[[UIApplication sharedApplication] keyWindow] addSubview:myView];
+
+  [UIView animateWithDuration:0.2
+                            delay:0.0
+                          options: UIViewAnimationOptionCurveEaseInOut
+                       animations:^{
+                           myView.alpha = 1.0;
+
+  }completion:nil];
+
+  [UIView animateWithDuration:0.2
+                            delay:2.2
+                          options: UIViewAnimationOptionCurveEaseInOut
+                       animations:^{
+                           myView.alpha = 0.0;
+  } completion:nil];
+
+
 }
 %end
-
-
-
